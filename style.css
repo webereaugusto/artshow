@@ -160,7 +160,7 @@ header {
     top: 0;
     width: 100%;
     z-index: 1000;
-    padding: 1rem 0;
+    padding: 0;
     transition: var(--transition);
     background-color: rgba(31, 31, 31, 0.95);
     backdrop-filter: blur(10px);
@@ -177,8 +177,15 @@ header nav {
     align-items: center;
 }
 
+.logo {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
 .logo img {
-    height: 70px;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
     border-radius: 4px;
 }
 
@@ -1160,8 +1167,15 @@ footer {
     margin-bottom: 3rem;
 }
 
+.footer-logo {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
 .footer-logo img {
-    height: 60px;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
     margin-bottom: 1rem;
     border-radius: 4px;
 }
