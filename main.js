@@ -26,23 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Scroll Reveal Animation
+    // Scroll Reveal — use IntersectionObserver for better performance
     const revealElements = document.querySelectorAll('.reveal');
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const revealOnScroll = () => {
-        const triggerBottom = window.innerHeight * 0.85;
+    if (prefersReduced) {
+        // If user prefers reduced motion, reveal everything instantly
+        revealElements.forEach(el => el.classList.add('active'));
+    } else if (revealElements.length) {
+        const ro = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
 
-        revealElements.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-
-            if (elementTop < triggerBottom) {
-                el.classList.add('active');
-            }
-        });
-    };
-
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
+        revealElements.forEach(el => ro.observe(el));
+    }
 
     // Animated Counters
     const animateCounter = (element, target, duration = 2000) => {
@@ -83,13 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Parallax effect for hero background
+    // Parallax effect for hero background (rAF + respects reduced-motion)
     const heroBackground = document.querySelector('.hero-background');
-    if (heroBackground) {
+    const reducedMotion = prefersReduced;
+    if (heroBackground && !reducedMotion) {
+        let latestScroll = 0;
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
-        });
+            latestScroll = window.pageYOffset;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    heroBackground.style.transform = `translateY(${latestScroll * 0.5}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    } else if (heroBackground && reducedMotion) {
+        heroBackground.style.transform = 'none';
     }
 
     // Smooth scroll for nav links
