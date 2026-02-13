@@ -125,20 +125,6 @@ h3 {
     opacity: 0.98;
 }
 
-/* ripple */
-.btn-primary { position: relative; overflow: hidden; }
-.btn-primary .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.35);
-    transform: scale(0);
-    animation: rippleAnim 0.8s linear;
-    pointer-events: none;
-}
-@keyframes rippleAnim {
-    to { transform: scale(1); opacity: 0; }
-}
-
 .btn-primary.large {
     padding: 1.2rem 2.5rem;
     font-size: 1.1rem;
@@ -189,33 +175,6 @@ header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.fx-toggle {
-    appearance: none;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: transparent;
-    color: var(--light);
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1rem;
-    cursor: pointer;
-    transition: transform var(--trans-fast), box-shadow var(--trans-fast), background var(--trans-fast);
-}
-
-.fx-toggle:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
-}
-
-.fx-toggle[aria-pressed=\"true\"] {
-    background: linear-gradient(90deg,var(--accent),var(--accent-2));
-    color: #fff;
-    border: none;
 }
 
 .logo {
